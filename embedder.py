@@ -4,13 +4,13 @@ from langchain_community.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 
 # 1. Load and Split PDF
-loader = PyPDFLoader("pdf-analyzer/data/BERT.pdf")  # Replace with your PDF path
+loader = PyPDFLoader("pdf-analyzer-turbolearnai-clone/data/BERT.pdf")  # Replace with your PDF path
 pages = loader.load_and_split()
 
 # 2. Split into Chunks (for better retrieval)
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,  # Adjust based on doc complexity
-    chunk_overlap=200  # Helps maintain context
+    chunk_size=100,  # Adjust based on doc complexity
+    chunk_overlap=20  # Helps maintain context
 )
 chunks = text_splitter.split_documents(pages)
 

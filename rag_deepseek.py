@@ -3,24 +3,26 @@ from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.llms import Ollama
 from langchain.chains import RetrievalQA
 from chromadb.config import Settings as ChromaSettings
+from langchain.embeddings import HuggingFaceEmbeddings
 
 def main():
     # 1. Load ChromaDB with telemetry disabled
     vector_db = Chroma(
-        persist_directory="./chroma_db",
-        embedding_function=OllamaEmbeddings(model="mistral"),
-        client_settings=ChromaSettings(anonymized_telemetry=False)
-    )
+    embedding_function= HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+),
+    persist_directory="./chroma_db"  # Saves locally
+)
 
     # 2. Initialize DeepSeek-R1
-    llm = Ollama(model="mistral")
+    llm = Ollama(model="deepseek-r1")
 
     # 3. Set up RAG chain (sources still used internally but not returned)
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
         retriever=vector_db.as_retriever(search_kwargs={"k": 3}),
-        return_source_documents=False  # Critical change
+        return_source_documents=True  # Critical change
     )
 
     print("PDF Q&A System Ready. Type '/exit' to quit.\n")
