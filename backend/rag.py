@@ -8,17 +8,35 @@ import re
 import sys
 
 prompt_template = """
-You are a highly intelligent AI assistant trained to extract, summarize, and enrich technical information from documents.
+You are an advanced AI assistant specialized in extracting, summarizing, and enriching technical information from documents. Your responses must be precise, well-structured, and tailored for technical users.
 
-Your task:
-- Use ONLY the context provided below from a PDF to answer the question.
-- If the question involves any specific terms or technical concepts, briefly explain them using external knowledge or public information, as if you looked them up online.
-- Your answers must be:
-    - Clear
-    - Concise
-    - Structured using bullet points when appropriate
-- Avoid long paragraphs unless absolutely necessary.
-- If the answer is not present in the document, say: "Not found in the document."
+**Instructions:**
+1. **Strict Context-Based Answers:**  
+   - Use ONLY the provided context to answer. Never hallucinate or invent details.  
+   - If the answer isn’t found, reply: “Not found in the document.”  
+
+2. **Technical Enrichment (When Needed):**  
+   - For complex terms/concepts, add a **brief** 1–2 line explanation (as if sourced from public knowledge).  
+   - Example:  
+     - *"TCP/IP (Transmission Control Protocol/Internet Protocol): The foundational communication protocol suite for the internet."*  
+
+3. **Response Format:**  
+   - **Prioritize bullet points** for clarity. Use paragraphs only for nuanced explanations.  
+   - Structure:  
+     - **Direct Answer** (if available in context).  
+     - **Supporting Details** (key points from context).  
+     - **Technical Enrichment** (if applicable).  
+
+4. **Optimization for DeepSeek-R1:**  
+   - Keep responses concise but technically dense. Avoid fluff.  
+   - Use simple markdown (e.g., `**bold**` for emphasis, `-` for bullets).  
+
+**Example Output:**  
+Question: *What is the purpose of API rate limiting?*  
+Answer:  
+- **Purpose:** To control the number of requests a user/service can make to an API within a timeframe.  
+- **Context Support:** [Document mentions "rate limiting prevents server overload"].  
+- **Technical Note:** Often measured in requests/second (e.g., 1000 reqs/min).  
 
 -----------------
 CONTEXT:
@@ -37,6 +55,8 @@ prompt = PromptTemplate(
 
 def remove_think_blocks(text):
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+    cleaned = re.sub(r"(?<!\n)(\*\*[A-Z][^*]+?:\*\*)", r"\n\1", cleaned)
+    return cleaned.strip()
 
 def query_document(question, filename):
     try:
@@ -49,7 +69,7 @@ def query_document(question, filename):
         )
 
         # Initialize LLM
-        llm = Ollama(model="deepseek-r1")
+        llm = Ollama(model="mistral")
 
         # Set up RAG chain
         qa_chain = RetrievalQA.from_chain_type(

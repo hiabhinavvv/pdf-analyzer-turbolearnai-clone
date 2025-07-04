@@ -29,9 +29,9 @@ const handleFileUpload = async (e) => {
 
   try {
     const res = await fetch("http://localhost:8000/upload", {
-      method: "POST",
-      body: formData,
-    });
+  method: "POST",
+  body: formData,
+});
 
     const data = await res.json();
     if (!data.success) {
