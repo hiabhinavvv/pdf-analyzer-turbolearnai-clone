@@ -170,25 +170,6 @@ ollama pull mistral
    - Lambda pay-per-use model
    - Spot instances for batch processing
 
-## Contributing
-
-We welcome contributions! Please follow these guidelines:
-
-1. **Code Style**
-   - Python: PEP 8 with Black formatting
-   - JavaScript: Standard style
-   - 80 character line limits
-
-2. **Branch Naming**
-   - `feature/your-feature`
-   - `bugfix/issue-number`
-   - `docs/topic`
-
-3. **Testing**
-   - Unit tests for all new functions
-   - Integration tests for API endpoints
-   - Performance benchmarks for AI components
-
 ## License
 
 MIT License - Free for academic and non-commercial use. Commercial licenses available.
