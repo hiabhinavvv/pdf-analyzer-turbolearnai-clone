@@ -1,4 +1,4 @@
-# StudyAI - PDF Interaction with LLMs
+# InsightPDF - PDF Interaction with LLMs
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
