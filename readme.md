@@ -12,7 +12,7 @@
 
 ## Project Overview
 
-StudyAI is an interactive document analysis platform that allows users to:
+InsightPDF is an interactive document analysis platform that allows users to:
 - Upload PDF documents
 - Process them into vector embeddings
 - Have natural language conversations about the content using local LLMs
@@ -80,8 +80,8 @@ User PDF → FastAPI → Embedder → ChromaDB → RAG Chain → LLM → Respons
 1. **Backend Setup**
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/studyai.git
-cd studyai/backend
+git clone https://github.com/yourusername/InsightPDF.git
+cd InsightPDF/backend
 
 # Create virtual environment (Optional)
 python -m venv venv
